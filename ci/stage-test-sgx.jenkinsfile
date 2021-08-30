@@ -10,6 +10,7 @@ stage('test-sgx') {
         timeout(time: 60, unit: 'MINUTES') {
             sh '''
                 cd LibOS/shim/test/ltp
+
                 make ${MAKEOPTS} -f Makefile.LTP SGX=1 all LTPCFG="$CFG" LTPTESTFILE=$PWD$LTPSCENARIO
                 if [[ $LTPSCENARIO == *"syscalls-new"* ]]; then
                     sed -i '76 a sgx.allowed_files.pipe202child = "file:pipe2_02_child"' $PWD/install-sgx/testcases/bin/pipe2_02.manifest
